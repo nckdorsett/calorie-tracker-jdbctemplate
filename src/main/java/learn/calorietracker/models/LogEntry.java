@@ -1,5 +1,7 @@
 package learn.calorietracker.models;
 
+import java.util.Objects;
+
 public class LogEntry {
     private int id;
     private String loggedOn; // "2020-01-01 09:00 AM"
@@ -42,6 +44,10 @@ public class LogEntry {
         this.type = type;
     }
 
+    public void setType(int index) {
+        this.type = LogEntryType.findByValue(index);
+    }
+
     public String getDescription() {
         return description;
     }
@@ -67,5 +73,22 @@ public class LogEntry {
                 ", description='" + description + '\'' +
                 ", calories=" + calories +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LogEntry logEntry = (LogEntry) o;
+        return id == logEntry.id &&
+                calories == logEntry.calories &&
+                Objects.equals(loggedOn, logEntry.loggedOn) &&
+                type == logEntry.type &&
+                Objects.equals(description, logEntry.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, loggedOn, type, description, calories);
     }
 }
